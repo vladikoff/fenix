@@ -8,7 +8,7 @@
     <androidx.preference.Preference
         android:key="@string/pref_key_sync_sign_in"
         android:title="@string/preferences_sync_sign_in"
-        android:icon="@drawable/ic_login" />
+        android:icon="@drawable/ic_sign_in" />
     <androidx.preference.Preference
         android:key="@string/pref_key_sync_create_account"
         android:title="@string/preferences_sync_create_account"
