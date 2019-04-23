@@ -178,6 +178,7 @@
 
     <!-- Preference switch for Firefox Sync -->
     <string name="preferences_sync_sign_in">Sign in</string>
+    <string name="preferences_sync_pair_sign_in">Scan pairing code in desktop Firefox</string>
     <!-- Preference switch for crash reporter -->
     <string name="preferences_sync_create_account">Create an account</string>
 
