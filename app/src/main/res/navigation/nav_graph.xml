@@ -269,6 +269,31 @@
         android:name="org.mozilla.fenix.settings.SyncFragment"
         android:label="SyncFragment">
         <action
+            android:id="@+id/action_syncFragment_to_syncPairDialogFragment"
+            app:destination="@id/syncPairDialogFragment" />
+        <action
+            android:id="@+id/action_syncFragment_to_syncPairFragment"
+            app:destination="@id/syncPairFragment" />
+        <action
+            android:id="@+id/action_settingsFragment_to_browserFragment"
+            app:destination="@id/browserFragment"
+            app:popUpTo="@+id/settingsFragment" />
+    </fragment>
+
+    <fragment
+            android:id="@+id/syncPairDialogFragment"
+            android:name="org.mozilla.fenix.settings.SyncPairDialogFragment"
+            android:label="SyncFragment">
+        <action
+            android:id="@+id/action_syncPairDialogFragment_to_syncPairFragment"
+            app:destination="@id/syncPairFragment" />
+    </fragment>
+
+    <fragment
+            android:id="@+id/syncPairFragment"
+            android:name="org.mozilla.fenix.settings.SyncPairFragment"
+            android:label="SyncPairFragment">
+        <action
             android:id="@+id/action_settingsFragment_to_browserFragment"
             app:destination="@id/browserFragment"
             app:popUpTo="@+id/settingsFragment" />

@@ -123,6 +123,7 @@
     <string name="preferences_theme">Theme</string>
     <!-- Preference for ways to connect to Firefox Sync -->
     <string name="preferences_sync">Turn on Sync</string>
+    <string name="preferences_pair_instructions">Visit <b>firefox.com/pair</b> in Firefox on your computer to get your QR code.</string>
     <!-- Preference description for banner about signing in -->
     <string name="preferences_sign_in_description">Sync bookmarks, history, and more with your Firefox Account</string>
     <!-- Preference shown instead of account display name while account profile information isn't available yet. -->

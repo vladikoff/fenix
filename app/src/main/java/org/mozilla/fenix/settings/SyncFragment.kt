@@ -7,6 +7,7 @@ package org.mozilla.fenix.settings
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.navigation.Navigation
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import kotlinx.coroutines.CoroutineScope
@@ -79,15 +80,20 @@ class SyncFragment : PreferenceFragmentCompat(), CoroutineScope {
     }
 
     private fun showQuickSettingsDialog() {
-        launch {
-            launch(Dispatchers.Main) {
-                val quickSettingsSheet = SyncPairDialogFragment.newInstance()
-                quickSettingsSheet.show(
-                    requireFragmentManager(),
-                    SyncPairDialogFragment.FRAGMENT_TAG
-                )
-            }
-        }
+        val directions = SyncFragmentDirections.actionSyncFragmentToSyncPairDialogFragment()
+        Navigation.findNavController(view!!).navigate(directions)
+
+//        launch {
+//            launch(Dispatchers.Main) {
+//                val quickSettingsSheet = SyncPairDialogFragment.newInstance(
+//                   view,
+//                )
+//                quickSettingsSheet.show(
+//                    requireFragmentManager(),
+//                    SyncPairDialogFragment.FRAGMENT_TAG
+//                )
+//            }
+//        }
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {

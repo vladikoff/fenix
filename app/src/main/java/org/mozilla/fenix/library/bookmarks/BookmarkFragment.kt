@@ -89,7 +89,7 @@ class BookmarkFragment : Fragment(), CoroutineScope, BackHandler, AccountObserve
         checkIfSignedIn()
 
         navigation.addOnDestinationChangedListener(onDestinationChangedListener)
-        val currentGuid = BookmarkFragmentArgs.fromBundle(arguments!!).currentRoot.ifEmpty { BookmarkRoot.Mobile.id }
+        val currentGuid = BookmarkFragmentArgs.fromBundle(arguments!!).currentRoot.ifEmpty { BookmarkRoot.Root.id }
 
         launch(IO) {
             currentRoot = requireComponents.core.bookmarksStorage.getTree(currentGuid) as BookmarkNode

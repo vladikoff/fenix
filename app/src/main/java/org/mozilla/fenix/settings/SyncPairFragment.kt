@@ -10,7 +10,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
-import androidx.navigation.Navigation
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -24,28 +23,12 @@ import org.mozilla.fenix.HomeActivity
 import org.mozilla.fenix.R
 import org.mozilla.fenix.ext.requireComponents
 import kotlin.coroutines.CoroutineContext
-
-
-private const val KEY_URL = "KEY_URL"
-private const val KEY_IS_SECURED = "KEY_IS_SECURED"
-private const val KEY_SITE_PERMISSIONS = "KEY_SITE_PERMISSIONS"
-private const val KEY_IS_TP_ON = "KEY_IS_TP_ON"
-private const val REQUEST_CODE_QUICK_SETTINGS_PERMISSIONS = 4
+import androidx.fragment.app.Fragment
 
 @SuppressWarnings("TooManyFunctions")
-class SyncPairDialogFragment : BottomSheetDialogFragment(), CoroutineScope, BackHandler {
-
+class SyncPairFragment : Fragment(), BackHandler {
     private val qrFeature = ViewBoundFeatureWrapper<QrFeature>()
-    private val safeArguments get() = requireNotNull(arguments)
     private lateinit var job: Job
-
-    var sitePermissions: SitePermissions?
-        get() = safeArguments.getParcelable(KEY_SITE_PERMISSIONS)
-        set(value) {
-            safeArguments.putParcelable(KEY_SITE_PERMISSIONS, value)
-        }
-
-    override val coroutineContext: CoroutineContext get() = Dispatchers.IO + job
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -54,7 +37,7 @@ class SyncPairDialogFragment : BottomSheetDialogFragment(), CoroutineScope, Back
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_sync_pair_dialog_sheet, container, false)
+        return inflater.inflate(R.layout.fragment_sync_pair, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -65,7 +48,7 @@ class SyncPairDialogFragment : BottomSheetDialogFragment(), CoroutineScope, Back
                 requireContext(),
                 fragmentManager = requireFragmentManager(),
                 onNeedToRequestPermissions = { permissions ->
-                    requestPermissions(permissions, SyncPairDialogFragment.REQUEST_CODE_CAMERA_PERMISSIONS)
+                    requestPermissions(permissions, REQUEST_CODE_CAMERA_PERMISSIONS)
                 },
                 onScanResult = { pairingUrl ->
                     requireComponents.services.accountsAuthFeature.beginPairingAuthentication(pairingUrl)
@@ -77,37 +60,21 @@ class SyncPairDialogFragment : BottomSheetDialogFragment(), CoroutineScope, Back
             view = view
         )
 
-        val openCamera = view.findViewById(R.id.pair_open_camera) as Button
-        openCamera.setOnClickListener(View.OnClickListener {
-            val directions = SyncPairDialogFragmentDirections.actionSyncPairDialogFragmentToSyncPairFragment()
-            Navigation.findNavController(view!!).navigate(directions)
+        qrFeature.withFeature {
+            it.scan(R.id.pair_layout)
+        }
 
-            dismiss();
-        })
-
-        val cancelCamera = view.findViewById(R.id.pair_cancel) as Button
-        cancelCamera.setOnClickListener(View.OnClickListener {
-            dismiss();
-        })
     }
 
     override fun onBackPressed(): Boolean {
-        return when {
-            qrFeature.onBackPressed() -> true
-            else -> false
-        }
+        qrFeature.onBackPressed()
+        fragmentManager?.popBackStack()
+        return true
     }
 
     companion object {
-        const val FRAGMENT_TAG = "SYNC_PAIR_DIALOG_FRAGMENT_TAG"
         private const val REQUEST_CODE_CAMERA_PERMISSIONS = 1
-
-        fun newInstance(): SyncPairDialogFragment {
-            val fragment = SyncPairDialogFragment()
-            return fragment
-        }
     }
-
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
         when (requestCode) {
