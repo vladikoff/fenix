@@ -25,12 +25,7 @@ import org.mozilla.fenix.R
 import org.mozilla.fenix.ext.requireComponents
 import kotlin.coroutines.CoroutineContext
 
-
-private const val KEY_URL = "KEY_URL"
-private const val KEY_IS_SECURED = "KEY_IS_SECURED"
 private const val KEY_SITE_PERMISSIONS = "KEY_SITE_PERMISSIONS"
-private const val KEY_IS_TP_ON = "KEY_IS_TP_ON"
-private const val REQUEST_CODE_QUICK_SETTINGS_PERMISSIONS = 4
 
 @SuppressWarnings("TooManyFunctions")
 class SyncPairDialogFragment : BottomSheetDialogFragment(), CoroutineScope, BackHandler {
@@ -59,7 +54,6 @@ class SyncPairDialogFragment : BottomSheetDialogFragment(), CoroutineScope, Back
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         qrFeature.set(
             QrFeature(
                 requireContext(),
@@ -82,20 +76,23 @@ class SyncPairDialogFragment : BottomSheetDialogFragment(), CoroutineScope, Back
             val directions = SyncPairDialogFragmentDirections.actionSyncPairDialogFragmentToSyncPairFragment()
             Navigation.findNavController(view!!).navigate(directions)
 
-            dismiss();
+            //dismiss();
         })
 
         val cancelCamera = view.findViewById(R.id.pair_cancel) as Button
         cancelCamera.setOnClickListener(View.OnClickListener {
-            dismiss();
+            onBackPressed();
+            //dismiss();
         })
     }
 
     override fun onBackPressed(): Boolean {
-        return when {
-            qrFeature.onBackPressed() -> true
-            else -> false
-        }
+        fragmentManager?.popBackStack()
+        return true
+//        return when {
+//            qrFeature.onBackPressed() -> true
+//            else -> false
+//        }
     }
 
     companion object {

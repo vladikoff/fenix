@@ -23,6 +23,8 @@ import org.mozilla.fenix.ext.getPreferenceKey
 import org.mozilla.fenix.ext.requireComponents
 import kotlin.coroutines.CoroutineContext
 
+
+
 class SyncFragment : PreferenceFragmentCompat(), CoroutineScope {
 
     private val qrFeature = ViewBoundFeatureWrapper<QrFeature>()
