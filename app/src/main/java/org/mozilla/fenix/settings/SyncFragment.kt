@@ -73,7 +73,6 @@ class SyncFragment : PreferenceFragmentCompat(), CoroutineScope {
         return Preference.OnPreferenceClickListener {
             showQuickSettingsDialog()
 
-
             true
         }
     }
