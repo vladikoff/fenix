@@ -103,6 +103,19 @@ open class FenixApplication : LocaleAwareApplication() {
                 )),
             uploadEnabled = telemetryEnabled
         )
+
+        mozilla.components.service.glean.RustHttpConfig.setClient(lazy { components.core.client })
+        Thread {
+            GlobalScope.launch {
+                var exp = mozilla.components.service.glean.Experiments
+                exp.initialize(applicationContext, applicationContext.dataDir.path)
+                val res = exp.getBranch("button-color")
+                println(res)
+                //TODO
+                // Send an enrolled event for the experiment
+                // Send a saw button-color button. AKA "User saw some branch of the experiment"
+            }
+        }.start()
     }
 
     @CallSuper
